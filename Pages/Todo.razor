@@ -1,0 +1,35 @@
+@page "/todo"
+@* the page is named up here, which is reflected in the URL *@
+<h3>To Do List for learning how to Blaz(or) (@todos.Count(todo=> !todo.IsDone))</h3>
+@* Below is the general output display in HTML like format, with C# coding *@
+<ul>
+    @foreach  (var todo in todos)
+    {
+        @* the @todo connects the output to the foreach function above *@
+        <li>
+            <input type="checkbox" @bind="todo.IsDone"/>
+            <input @bind= "todo.Title" />
+        </li>
+    }
+</ul>
+    @* The @bind connects the input to the coded functions below, so the input is for that *@
+<input placeholder="Something todo" @bind="newTodo" />
+@* the @onclick handler functions like js, making the button function with the AddTodo function below *@
+<button @onclick="AddTodo">Add to do</button>
+
+@code{
+    private List<TodoItem> todos= new();
+        //the list is stored to be used in the display foreach
+        private string? newTodo;
+        //the list is comprised of strings, newTodo
+
+    private void AddTodo()
+    //the function for taking the input, and using the button to make a to do list
+    {
+        if(!string.IsNullOrWhiteSpace(newTodo))
+        {
+            todos.Add(new TodoItem {Title= newTodo});
+            newTodo= string.Empty;
+        }
+    }
+}
